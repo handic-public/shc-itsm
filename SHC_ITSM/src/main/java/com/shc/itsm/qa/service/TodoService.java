@@ -29,7 +29,7 @@ public class TodoService {
 	}
 
 	/**
-	 * create Todo
+	 * create Qna
 	 * @param entity
 	 * @return
 	 */

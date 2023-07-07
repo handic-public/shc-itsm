@@ -1,4 +1,4 @@
-package com.shc.itsm.qa.dto;
+package com.shc.itsm.common.dto;
 
 import java.util.List;
 

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.shc.itsm.qa.dto.ResponseDTO;
+import com.shc.itsm.common.dto.ResponseDTO;
 import com.shc.itsm.qa.dto.TodoDTO;
 import com.shc.itsm.qa.model.TodoEntity;
 import com.shc.itsm.qa.service.TodoService;
