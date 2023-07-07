@@ -1,5 +1,6 @@
 package com.shc.itsm.board.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,6 +25,17 @@ public class QnaController {
 	
 	@Autowired
 	private QnaService service;
+	
+	@GetMapping("/test")
+	public ResponseEntity<?> testTodo() {
+		String str = service.testService();
+		
+		List<String> list = new ArrayList<>();
+		list.add(str);
+		ResponseDTO<String> response = ResponseDTO.<String>builder().data(list).build();
+		
+		return ResponseEntity.ok().body(response);
+	}
 	
 	@PostMapping
 	public ResponseEntity<?> createTodo(@RequestBody QnaDTO dto) {

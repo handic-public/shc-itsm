@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.shc.itsm.board.model.QnaEntity;
 import com.shc.itsm.board.persistence.QnaRepository;
+import com.shc.itsm.qa.model.TodoEntity;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,6 +18,18 @@ public class QnaService {
 	
 	@Autowired
 	private QnaRepository repository;
+	
+	public String testService() {
+
+		QnaEntity entity = QnaEntity.builder().title("My first todo item").build();
+
+		repository.save(entity);
+
+		QnaEntity savedEntity = repository.findById(entity.getSeq()).get();
+
+		return savedEntity.getTitle();
+	}
+	
 
 	/**
 	 * select Qna
