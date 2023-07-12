@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.shc.itsm.board.model.QnaEntity;
 import com.shc.itsm.board.persistence.QnaRepository;
-import com.shc.itsm.qa.model.TodoEntity;
 
 import lombok.extern.slf4j.Slf4j;
 
