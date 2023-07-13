@@ -1,4 +1,4 @@
-package com.shc.itsm.qa.service;
+package com.shc.itsm.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,8 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.shc.itsm.qa.model.TodoEntity;
-import com.shc.itsm.qa.persistence.TodoRepository;
+import com.shc.itsm.model.TodoEntity;
+import com.shc.itsm.persistence.TodoRepository;
 
 import lombok.extern.slf4j.Slf4j;
 

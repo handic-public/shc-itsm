@@ -1,6 +1,6 @@
-package com.shc.itsm.qa.dto;
+package com.shc.itsm.dto;
 
-import com.shc.itsm.qa.model.TodoEntity;
+import com.shc.itsm.model.TodoEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

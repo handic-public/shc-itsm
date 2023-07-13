@@ -1,4 +1,4 @@
-package com.shc.itsm.qa.model;
+package com.shc.itsm.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

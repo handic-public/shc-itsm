@@ -1,4 +1,4 @@
-package com.shc.itsm.qa.dto;
+package com.shc.itsm.dto;
 
 import lombok.Data;
 

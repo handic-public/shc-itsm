@@ -1,4 +1,4 @@
-package com.shc.itsm.qa.controller;
+package com.shc.itsm.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.shc.itsm.common.dto.ResponseDTO;
-import com.shc.itsm.qa.dto.TodoDTO;
-import com.shc.itsm.qa.model.TodoEntity;
-import com.shc.itsm.qa.service.TodoService;
+import com.shc.itsm.dto.TodoDTO;
+import com.shc.itsm.model.TodoEntity;
+import com.shc.itsm.service.TodoService;
 
 @RestController
 @RequestMapping("todo")
