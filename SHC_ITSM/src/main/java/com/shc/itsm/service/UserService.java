@@ -1,6 +1,7 @@
 package com.shc.itsm.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.shc.itsm.model.UserEntity;
@@ -30,7 +31,15 @@ public class UserService {
 		return userRepository.save(userEntity);
 	}
 	
-	public UserEntity getBycreadentials(final String username, final String password) {
-		return userRepository.findByUsernameAndPassword(username, password);
+	public UserEntity getBycreadentials(final String username, final String password, final PasswordEncoder encoder) {
+		final UserEntity orginalUser = userRepository.findByUsername(username);
+		
+		// mathces 메서드를 이요해 패스워드가 같은지 확인
+		if(orginalUser != null && encoder.matches(password,  orginalUser.getPassword())) {
+			return orginalUser;
+		}
+		
+		return null;
+//		return userRepository.findByUsernameAndPassword(username, password);
 	}
 }
