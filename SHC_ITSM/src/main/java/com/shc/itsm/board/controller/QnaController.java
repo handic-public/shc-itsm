@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,15 +39,15 @@ public class QnaController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> createTodo(@RequestBody QnaDTO dto) {
+	public ResponseEntity<?> createTodo(@AuthenticationPrincipal String userId, @RequestBody QnaDTO dto) {
 		try {
-			String temporaryUserId = "184137";
+//			String temporaryUserId = "184137";
 			// (1) QnaEntity로 변환
 			QnaEntity entity = QnaDTO.toEntity(dto);
 			// (2) id를 null로 초기화한다. 생성 당시에는 id가 없어야 한다.
 			entity.setSeq(null);
 			// (3) 임시 유저 아이디를 설정해준다. 이부분은4장 인증과 인가에서 수정 예정, 지금은 인증과 인가 기능이 없으므로 한 유저만 로그인 없이 사용 가능한 애플리케이션 셈이다.
-			entity.setUserId(temporaryUserId);
+			entity.setUserId(userId);
 			// (4) 서비스를 이용해 Qna 엔티티를 생성한다.
 			List<QnaEntity> entities = service.create(entity);
 			// (5) 자바 스트림을 이용해 리턴된 엔티티 리스트를 QnaDTO 리스트로 변환한다.
@@ -64,10 +65,10 @@ public class QnaController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<?> retrieveTodoList() {
-		String temporaryUserId = "184137";
+	public ResponseEntity<?> retrieveTodoList(@AuthenticationPrincipal String userId) {
+//		String temporaryUserId = "184137";
 		// (1) 서비스 메서드의 retrieve 메서드를 사용해 Todo 리스트를 가져온다
-		List<QnaEntity> entities = service.retrieve(temporaryUserId);
+		List<QnaEntity> entities = service.retrieve(userId);
 		// (2) 자바 스트림을 이용해 리턴된 엔티티 리스트를 QnaDTO 리스트로 변환한다.
 		List<QnaDTO> dtos = entities.stream().map(QnaDTO::new).collect(Collectors.toList());
 		// (6) 변환된 QnaDTO 리스트를 이용해 ResponseDTO를 초기화 한다.
@@ -77,13 +78,13 @@ public class QnaController {
 	}
 	
 	@PutMapping
-	public ResponseEntity<?> updateTodo(@RequestBody QnaDTO dto) {
+	public ResponseEntity<?> updateTodo(@AuthenticationPrincipal String userId, @RequestBody QnaDTO dto) {
 		
-		String temporaryUserId = "184137";
+//		String temporaryUserId = "184137";
 		// (1) QnaEntity로 변환
 		QnaEntity entity = QnaDTO.toEntity(dto);
 		// (2) 임시 유저 아이디를 설정해준다. 이부분은4장 인증과 인가에서 수정 예정, 지금은 인증과 인가 기능이 없으므로 한 유저만 로그인 없이 사용 가능한 애플리케이션 셈이다.
-		entity.setUserId(temporaryUserId);
+		entity.setUserId(userId);
 		// (3) 서비스를 이용해 Todo 엔티티를 수정한다.
 		List<QnaEntity> entities = service.update(entity);
 		// (4) 자바 스트림을 이용해 리턴된 엔티티 리스트를 QnaDTO 리스트로 변환한다.
@@ -95,15 +96,15 @@ public class QnaController {
 	}
 	
 	@DeleteMapping
-	public ResponseEntity<?> deleteTodo(@RequestBody QnaDTO dto) {
+	public ResponseEntity<?> deleteTodo(@AuthenticationPrincipal String userId, @RequestBody QnaDTO dto) {
 		
 		try {
-			String temporaryUserId = "184137";
+//			String temporaryUserId = "184137";
 			
 			// (1) QnaEntity로 변환
 			QnaEntity entity = QnaDTO.toEntity(dto);
 			// (2) 임시 유저 아이디를 설정해준다. 이부분은4장 인증과 인가에서 수정 예정, 지금은 인증과 인가 기능이 없으므로 한 유저만 로그인 없이 사용 가능한 애플리케이션 셈이다.
-			entity.setUserId(temporaryUserId);
+			entity.setUserId(userId);
 			// (3) 서비스를 이용해 Todo 엔티티를 삭제한다.
 			List<QnaEntity> entities = service.delete(entity);
 			// (4) 자바 스트림을 이용해 리턴된 엔티티 리스트를 QnaDTO 리스트로 변환한다.

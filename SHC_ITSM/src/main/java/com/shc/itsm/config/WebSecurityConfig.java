@@ -1,22 +1,25 @@
 package com.shc.itsm.config;
 
-import com.shc.itsm.security.JwtAuthenticationFilter;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.filters.CorsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.filter.CorsFilter;
+
+import com.shc.itsm.security.JwtAuthenticationFilter;
+
+import lombok.extern.slf4j.Slf4j;
 
 @EnableWebSecurity
 @Slf4j
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig {
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http)  throws Exception  {
         // http 시큐리티 빌더
         http.cors() // webMvcConfig에서 이미 설정했으므로 기본 cors 설정
                 .and()
@@ -37,5 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // CorsFilter 실행한 후에
         // jwtAuthenticationFilter 실행
         http.addFilterAfter(jwtAuthenticationFilter, CorsFilter.class);
+        
+        return http.build();
     }
 }
