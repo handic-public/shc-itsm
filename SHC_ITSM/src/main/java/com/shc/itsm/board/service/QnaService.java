@@ -3,6 +3,8 @@ package com.shc.itsm.board.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.shc.itsm.board.model.BoardEntity;
+import com.shc.itsm.board.persistence.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,9 @@ public class QnaService {
 	
 	@Autowired
 	private QnaRepository repository;
+
+	@Autowired
+	private BoardRepository boardRepository;
 	
 	public String testService() {
 
@@ -115,6 +120,51 @@ public class QnaService {
 		}
 
 		if(entity.getUserId() == null) {
+			log.warn("Unknown user.");
+			throw new RuntimeException("Unknown user.");
+		}
+	}
+
+	/**
+	 * QnA에 대해 게시글 작성
+	 * 공통 입력값 체크
+	 * @param entity
+	 * @return List
+	 */
+	public List<BoardEntity> post(final BoardEntity entity) {
+
+		// validations
+		validate(entity);
+
+		// Set Basic Value
+		entity.setBOARD_DIVSION("QA");	// QnA게시판
+		entity.setBOARD_STATUS("01"); // 등록상태
+		entity.setVIEW_YN(true);
+
+		// DB Insert
+		BoardEntity postEntity = boardRepository.save(entity);
+
+
+
+		log.info("Entity Id : {} is saved.", entity.getBOARD_ID());
+
+		// 등록후 조회
+		return boardRepository.findById(postEntity.getBOARD_ID());
+	}
+
+	/**
+	 * validate
+	 * 공통 입력값 체크
+	 * @param entity
+	 * @return void
+	 */
+	private void validate(final BoardEntity entity) {
+		if(entity == null) {
+			log.warn("Entity cannot be null.");
+			throw new RuntimeException("Entity cannot be null.");
+		}
+
+		if(entity.getEMNO() == null) {
 			log.warn("Unknown user.");
 			throw new RuntimeException("Unknown user.");
 		}
