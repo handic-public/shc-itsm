@@ -52,7 +52,7 @@ public class QnaService {
 	public List<QnaEntity> create(final QnaEntity entity) {
 
 		// validations
-		validate(entity);
+		validateByTodo(entity);
 
 		repository.save(entity);
 
@@ -70,7 +70,7 @@ public class QnaService {
 	public List<QnaEntity> update(final QnaEntity entity) {
 
 		// validations
-		validate(entity);
+		validateByTodo(entity);
 
 		final Optional<QnaEntity> original = repository.findById(entity.getSeq());
 
@@ -93,7 +93,7 @@ public class QnaService {
 	 */
 	public List<QnaEntity> delete(final QnaEntity entity) {
 		// validations
-		validate(entity);		
+		validateByTodo(entity);		
 
 		try {
 			// 2) 엔티티 삭제
@@ -113,7 +113,7 @@ public class QnaService {
 	 * @param entity
 	 * @return void
 	 */
-	private void validate(final QnaEntity entity) {
+	private void validateByTodo(final QnaEntity entity) {
 		if(entity == null) {
 			log.warn("Entity cannot be null.");
 			throw new RuntimeException("Entity cannot be null.");
@@ -131,7 +131,7 @@ public class QnaService {
 	 * @param entity
 	 * @return List
 	 */
-	public List<BoardEntity> post(final BoardEntity entity) {
+	public Optional<BoardEntity> post(final BoardEntity entity) {
 
 		// validations
 		validate(entity);
@@ -144,12 +144,40 @@ public class QnaService {
 		// DB Insert
 		BoardEntity postEntity = boardRepository.save(entity);
 
-
-
 		log.info("Entity Id : {} is saved.", entity.getBOARD_ID());
 
 		// 등록후 조회
 		return boardRepository.findById(postEntity.getBOARD_ID());
+	}
+	
+	/**
+	 * 게시글 작성
+	 * 공통 입력값 체크
+	 * @param entity
+	 * @return List
+	 */
+	public Optional<BoardEntity> put(final BoardEntity entity) {
+
+		// validations
+		validate(entity);
+
+		// 기존데이터 조회
+		final Optional<BoardEntity> original = boardRepository.findById(entity.getBOARD_ID());
+
+		// lambda 구현식
+		original.ifPresent(board -> {
+			
+			board.setTITLE	(entity.getTITLE()	);
+			board.setCONTENT(entity.getCONTENT());
+			board.setVIEW_YN(entity.isVIEW_YN()	);
+			
+			boardRepository.save(board);
+		});
+
+		log.info("Entity Id : {} is saved.", entity.getBOARD_ID());
+
+		// 등록후 조회
+		return boardRepository.findById(entity.getBOARD_ID());
 	}
 
 	/**
