@@ -37,7 +37,7 @@ public class QnaService {
 
 	/**
 	 * select Qna
-	 * @param entity
+	 * @param userId
 	 * @return List
 	 */
 	public List<QnaEntity> retrieve(final String userId) {
@@ -137,17 +137,17 @@ public class QnaService {
 		validate(entity);
 
 		// Set Basic Value
-		entity.setBOARD_DIVSION("QA");	// QnA게시판
-		entity.setBOARD_STATUS("01"); // 등록상태
-		entity.setVIEW_YN(true);
+		entity.setBoard_division("QA");	// QnA게시판
+		entity.setBoard_status("01"); // 등록상태
+		entity.setView(true);
 
 		// DB Insert
 		BoardEntity postEntity = boardRepository.save(entity);
 
-		log.info("Entity Id : {} is saved.", entity.getBOARD_ID());
+		log.info("Entity Id : {} is saved.", entity.getBoard_id());
 
 		// 등록후 조회
-		return boardRepository.findById(postEntity.getBOARD_ID());
+		return boardRepository.findById(postEntity.getBoard_id());
 	}
 	
 	/**
@@ -162,22 +162,22 @@ public class QnaService {
 		validate(entity);
 
 		// 기존데이터 조회
-		final Optional<BoardEntity> original = boardRepository.findById(entity.getBOARD_ID());
+		final Optional<BoardEntity> original = boardRepository.findById(entity.getBoard_id());
 
 		// lambda 구현식
 		original.ifPresent(board -> {
 			
-			board.setTITLE	(entity.getTITLE()	);
-			board.setCONTENT(entity.getCONTENT());
-			board.setVIEW_YN(entity.isVIEW_YN()	);
+			board.setTitle	(entity.getTitle()	);
+			board.setContent(entity.getContent());
+			board.setView(entity.isView()	);
 			
 			boardRepository.save(board);
 		});
 
-		log.info("Entity Id : {} is saved.", entity.getBOARD_ID());
+		log.info("Entity Id : {} is saved.", entity.getBoard_id());
 
 		// 등록후 조회
-		return boardRepository.findById(entity.getBOARD_ID());
+		return boardRepository.findById(entity.getBoard_id());
 	}
 
 	/**
@@ -192,7 +192,7 @@ public class QnaService {
 			throw new RuntimeException("Entity cannot be null.");
 		}
 
-		if(entity.getEMNO() == null) {
+		if(entity.getEmp_no() == null) {
 			log.warn("Unknown user.");
 			throw new RuntimeException("Unknown user.");
 		}

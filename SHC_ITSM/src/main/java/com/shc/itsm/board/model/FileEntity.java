@@ -23,11 +23,11 @@ public class FileEntity {
     @Id
     @GeneratedValue(generator ="system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
-    private String FILE_ID;
-    private String BOARD_ID;
-    private String FILE_NAME;
-    private String REAL_FILE_NAME;
-    private String FILE_PATH;
-    private Date REG_DATE;
-    private Date CHG_DATE;
+    private String file_id;
+    private String board_id;
+    private String file_name;
+    private String real_file_name;
+    private String file_path;
+    private Date reg_date;
+    private Date chg_date;
 }

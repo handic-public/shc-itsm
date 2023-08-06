@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface BoardRepository extends JpaRepository<BoardEntity, String>{
 	
-	List<BoardEntity> findByEMNO(String Emno);
+	List<BoardEntity> findByEmp_no(String Emp_NO);
 }

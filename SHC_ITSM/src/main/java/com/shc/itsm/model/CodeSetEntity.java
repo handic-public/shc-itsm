@@ -14,20 +14,23 @@ import java.util.Date;
 @AllArgsConstructor
 @Data
 @Entity
-@Table(name = "USER_TB")
-public class User2Entity {
+@Table(name = "CODE_SET_TB")
+public class CodeSetEntity {
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String id;
     @Column(nullable = false)
-    private String emp_no;
-    private String password;
-    private String emp_div_code;
-    private Date last_pwd_chg_date;
-    private Integer login_fail_count;
-    private String session_id;
+    private String value_cd;
+    private String value_nm;
+    private String large_cd;
+    private String middle_cd;
+    private String detail_cd;
+    private String large_nm;
+    private String middle_nm;
+    private String detail_nm;
     private boolean use;
+    private Integer sort_seq;
     private Date reg_date;
     private Date chg_date;
 }

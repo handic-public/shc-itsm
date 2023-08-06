@@ -22,15 +22,15 @@ public class BoardEntity {
     @Id
     @GeneratedValue(generator ="system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
-    private String BOARD_ID;
-    private Integer BOARD_RN;
-    private String EMNO;
-    private String TITLE;
-    private String CONTENT;
-    private String BOARD_STATUS;
-    private String BOARD_DIVSION;
-    private boolean VIEW_YN;
-    private String REPLY_TARGET_ID;
-    private Date REG_DATE;
-    private Date CHG_DATE;
+    private String board_id;
+    private Integer sort_seq;
+    private String emp_no;
+    private String title;
+    private String content;
+    private String board_status;
+    private String board_division;
+    private boolean view;
+    private String reply_target_id;
+    private Date reg_date;
+    private Date chg_date;
 }
