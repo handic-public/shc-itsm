@@ -10,5 +10,6 @@ import java.util.List;
 @Repository
 public interface BoardRepository extends JpaRepository<BoardEntity, String>{
 	
-	List<BoardEntity> findByEmp_no(String Emp_NO);
+	List<BoardEntity> findByEmp_no(String Emp_no);
+	List<BoardEntity> findByBoard_divisionAndView(String Division, Boolean isView);
 }
