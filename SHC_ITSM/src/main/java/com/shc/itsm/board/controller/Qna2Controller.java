@@ -31,8 +31,13 @@ public class Qna2Controller {
 			BoardEntity entity = BoardDTO.toEntity(dto);
 			// (2) id를 null로 초기화한다. 생성 당시에는 id가 없어야 한다.
 			entity.setBoard_id(null);
-			// (3) 임시 유저 아이디를 설정해준다. 이부분은4장 인증과 인가에서 수정 예정, 지금은 인증과 인가 기능이 없으므로 한 유저만 로그인 없이 사용 가능한 애플리케이션 셈이다.
+			
+			// (3) 기본값셋팅
 			entity.setEmp_no(emp_id);
+			entity.setBoard_division("QA");	// QnA게시판
+			entity.setBoard_status("01"); // 등록상태
+			entity.setView(true);	// 게시글보이기
+			
 			// (4) 서비스를 이용해 Qna 엔티티를 생성한다.
 			Optional<BoardEntity> boardEntity = service.post(entity);
 			// (5) 자바 스트림을 이용해 리턴된 엔티티 리스트를 QnaDTO 리스트로 변환한다.
