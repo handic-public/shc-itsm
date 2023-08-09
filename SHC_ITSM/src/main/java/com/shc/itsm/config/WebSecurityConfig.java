@@ -31,7 +31,7 @@ public class WebSecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()    // /와 /auth/** 경로는 인증 안해도 됨.
-                .antMatchers("/", "/auth/**").permitAll()
+                .antMatchers("/", "/auth/**", "/auth2/**").permitAll()
                 .anyRequest()   // /와 /auth/**이외의 모든 경로는 인증해야 됨.
                 .authenticated();
 

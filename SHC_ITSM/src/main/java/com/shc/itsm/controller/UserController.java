@@ -64,11 +64,11 @@ public class UserController {
 		UserEntity user = userService.getBycreadentials(userDTO.getUsername(), userDTO.getPassword(), passwordEncoder);
 		
 		if( user != null) {
-			final String token = tokenProvider.create(user);
+//			final String token = tokenProvider.create(user);
 			final UserDTO responseUserDTO = UserDTO.builder()
 					.username(user.getUsername())
 					.id(user.getId())
-					.token(token)
+//					.token(token)
 					.build();
 			return ResponseEntity.ok().body(responseUserDTO);
 		} else {

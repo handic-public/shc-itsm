@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 public class BoardDTO {
 	private String boardId;
 	private Integer sortSeq;
+	private String userId;
 	private String empNo;
 	private String title;
 	private String content;
@@ -25,6 +26,7 @@ public class BoardDTO {
 	public BoardDTO(final BoardEntity entity) {
 		this.boardId = entity.getBoardId();
 		this.sortSeq = entity.getSortSeq();
+		this.userId = entity.getUserId();
 		this.empNo = entity.getEmpNo(); 
 		this.title = entity.getTitle();
 		this.content = entity.getContent();
@@ -38,6 +40,7 @@ public class BoardDTO {
 		return BoardEntity.builder()
 				.boardId(dto.getBoardId())
 				.sortSeq(dto.getSortSeq())
+				.userId(dto.getUserId())
 				.empNo(dto.getEmpNo())
 				.title(dto.getTitle())
 				.content(dto.getContent())
