@@ -21,7 +21,7 @@ public class BoardService {
      * @return List
      */
     public List<BoardEntity> retrieve(String Division, Boolean isView) {
-        return boardRepository.findByBoard_divisionAndView(Division, isView);
+        return boardRepository.findByBoardDivisionAndView(Division, isView);
     }
 
     /**
@@ -38,10 +38,10 @@ public class BoardService {
         // DB Insert
         BoardEntity postEntity = boardRepository.save(entity);
 
-        log.info("Entity Id : {} is saved.", entity.getBoard_id());
+        log.info("Entity Id : {} is saved.", entity.getBoardId());
 
         // 등록후 조회
-        return boardRepository.findById(postEntity.getBoard_id());
+        return boardRepository.findById(postEntity.getBoardId());
     }
 
     /**
@@ -56,7 +56,7 @@ public class BoardService {
         validate(entity);
 
         // 기존데이터 조회
-        final Optional<BoardEntity> original = boardRepository.findById(entity.getBoard_id());
+        final Optional<BoardEntity> original = boardRepository.findById(entity.getBoardId());
 
         // lambda 구현식
         original.ifPresent(board -> {
@@ -64,15 +64,15 @@ public class BoardService {
             board.setTitle(entity.getTitle());
             board.setContent(entity.getContent());
             board.setView(entity.isView());
-            board.setBoard_status(entity.getBoard_status());
+            board.setBoardStatus(entity.getBoardStatus());
 
             boardRepository.save(board);
         });
 
-        log.info("Entity Id : {} is saved.", entity.getBoard_id());
+        log.info("Entity Id : {} is saved.", entity.getBoardId());
 
         // 등록후 조회
-        return boardRepository.findById(entity.getBoard_id());
+        return boardRepository.findById(entity.getBoardId());
     }
 
     /**
@@ -89,8 +89,8 @@ public class BoardService {
             boardRepository.delete(entity);
         } catch (Exception e) {
             // 3) 삭제 오류시 안내
-            log.error("error deleting entity ", entity.getBoard_id(), e);
-            throw new RuntimeException("error deleting entity " + entity.getBoard_id());
+            log.error("error deleting entity ", entity.getBoardId(), e);
+            throw new RuntimeException("error deleting entity " + entity.getBoardId());
         }
         // 4) 리스트 반환
         return retrieve("", true);
@@ -108,7 +108,7 @@ public class BoardService {
             throw new RuntimeException("Entity cannot be null.");
         }
 
-        if(entity.getEmp_no() == null) {
+        if(entity.getEmpNo() == null) {
             log.warn("Unknown user.");
             throw new RuntimeException("Unknown user.");
         }

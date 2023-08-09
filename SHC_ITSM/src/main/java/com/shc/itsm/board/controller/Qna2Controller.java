@@ -1,19 +1,24 @@
 package com.shc.itsm.board.controller;
 
-import com.shc.itsm.board.dto.BoardDTO;
-import com.shc.itsm.board.dto.QnaDTO;
-import com.shc.itsm.board.model.BoardEntity;
-import com.shc.itsm.board.model.QnaEntity;
-import com.shc.itsm.board.service.BoardService;
-import com.shc.itsm.common.dto.ResponseDTO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.shc.itsm.board.dto.BoardDTO;
+import com.shc.itsm.board.model.BoardEntity;
+import com.shc.itsm.board.service.BoardService;
+import com.shc.itsm.common.dto.ResponseDTO;
 
 @RestController
 @RequestMapping("qna2")
@@ -23,7 +28,7 @@ public class Qna2Controller {
 	private BoardService service;
 
 	@GetMapping
-	public ResponseEntity<?> retrieveQnaList(@AuthenticationPrincipal String emp_no) {
+	public ResponseEntity<?> retrieveQnaList(@AuthenticationPrincipal String userId) {
 //		String temporaryUserId = "184137";
 		// (1) 서비스 메서드의 retrieve 메서드를 사용해 Todo 리스트를 가져온다
 		List<BoardEntity> entities = service.retrieve("QA", true);
@@ -36,20 +41,18 @@ public class Qna2Controller {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> createQna(@AuthenticationPrincipal String emp_no, @RequestBody BoardDTO dto) {
+	public ResponseEntity<?> createQna(@AuthenticationPrincipal String userId, @RequestBody BoardDTO dto) {
 		try {
 //			String temporaryUserId = "184137";
 			// (1) QnaEntity로 변환
 			BoardEntity entity = BoardDTO.toEntity(dto);
 			// (2) id를 null로 초기화한다. 생성 당시에는 id가 없어야 한다.
-			entity.setBoard_id(null);
-			
+			entity.setBoardId(null);
 			// (3) 기본값셋팅
-			entity.setEmp_no(emp_no);	// 직원정보 셋팅
-			entity.setBoard_division("QA");	// QnA게시판
-			entity.setBoard_status("01"); // 등록상태
+			entity.setBoardDivision("QA");	// QnA게시판
+			entity.setBoardStatus("01"); // 등록상태
 			entity.setView(true);	// 게시글보이기
-			
+			entity.setUserId(userId);	// 로그인한 User Id(Authenticated)
 			// (4) 서비스를 이용해 Qna 엔티티를 생성한다.
 			Optional<BoardEntity> boardEntity = service.create(entity);
 			// (5) 자바 스트림을 이용해 리턴된 엔티티 리스트를 QnaDTO 리스트로 변환한다.
@@ -65,6 +68,7 @@ public class Qna2Controller {
 			return ResponseEntity.badRequest().body(response);
 		}
 	}
+	
 	@PutMapping
 	public ResponseEntity<?> updateQna(@AuthenticationPrincipal String userId, @RequestBody BoardDTO dto) {
 
@@ -72,7 +76,7 @@ public class Qna2Controller {
 		// (1) QnaEntity로 변환
 		BoardEntity entity = BoardDTO.toEntity(dto);
 		// (2) 임시 유저 아이디를 설정해준다. 이부분은4장 인증과 인가에서 수정 예정, 지금은 인증과 인가 기능이 없으므로 한 유저만 로그인 없이 사용 가능한 애플리케이션 셈이다.
-		entity.setEmp_no(userId);
+		entity.setUserId(userId);	// 로그인한 User Id(Authenticated)
 		// (3) 서비스를 이용해 Todo 엔티티를 수정한다.
 		Optional<BoardEntity> entities = service.update(entity);
 		// (4) 자바 스트림을 이용해 리턴된 엔티티 리스트를 QnaDTO 리스트로 변환한다.
@@ -92,7 +96,7 @@ public class Qna2Controller {
 			// (1) QnaEntity로 변환
 			BoardEntity entity = BoardDTO.toEntity(dto);
 			// (2) 임시 유저 아이디를 설정해준다. 이부분은4장 인증과 인가에서 수정 예정, 지금은 인증과 인가 기능이 없으므로 한 유저만 로그인 없이 사용 가능한 애플리케이션 셈이다.
-			entity.setEmp_no(userId);
+			entity.setUserId(userId);	// 로그인한 User Id(Authenticated)
 			// (3) 서비스를 이용해 Todo 엔티티를 삭제한다.
 			List<BoardEntity> entities = service.delete(entity);
 			// (4) 자바 스트림을 이용해 리턴된 엔티티 리스트를 QnaDTO 리스트로 변환한다.

@@ -6,7 +6,7 @@ import java.util.Date;
 
 import org.springframework.stereotype.Service;
 
-import com.shc.itsm.model.UserEntity;
+import com.shc.itsm.model.User2Entity;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 public class TokenProvider {
 	private static final String SECRET_KEY = "FlRpX30pMqDbiAkmlfArbrmVkDD4RqISskGZmBFax5oGVxzXXWUzTR5JyskiHMIV9M1Oicegkpi46AdvrcX1E6CmTUBc6IFbTPiD";
 	
-	public String create(UserEntity userEntity) {
+	public String create(User2Entity userEntity) {
 		Date expiryDate = Date.from( Instant.now().plus(1, ChronoUnit.DAYS) );
 		
 		 /*

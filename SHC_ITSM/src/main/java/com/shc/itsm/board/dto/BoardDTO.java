@@ -12,35 +12,38 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class BoardDTO {
-	private String board_id;
-	private Integer sort_seq;
+	private String boardId;
+	private Integer sortSeq;
+	private String empNo;
 	private String title;
 	private String content;
-	private String board_status;
-	private String board_division;
+	private String boardStatus;
+	private String boardDivision;
 	private boolean view;
-	private String reply_target_id;
+	private String replyTargetId;
 
 	public BoardDTO(final BoardEntity entity) {
-		this.board_id = entity.getBoard_id();
-		this.sort_seq = entity.getSort_seq();
+		this.boardId = entity.getBoardId();
+		this.sortSeq = entity.getSortSeq();
+		this.empNo = entity.getEmpNo(); 
 		this.title = entity.getTitle();
 		this.content = entity.getContent();
-		this.board_status = entity.getBoard_status();
-		this.board_division = entity.getBoard_division();
+		this.boardStatus = entity.getBoardStatus();
+		this.boardDivision = entity.getBoardDivision();
 		this.view = entity.isView();
-		this.reply_target_id = entity.getReply_target_id();
+		this.replyTargetId = entity.getReplyTargetId();
 	}
 	
 	public static BoardEntity toEntity(final BoardDTO dto) {
 		return BoardEntity.builder()
-				.board_id(dto.getBoard_id())
-				.sort_seq(dto.getSort_seq())
+				.boardId(dto.getBoardId())
+				.sortSeq(dto.getSortSeq())
+				.empNo(dto.getEmpNo())
 				.title(dto.getTitle())
 				.content(dto.getContent())
-				.board_status(dto.getBoard_status())
-				.board_division(dto.getBoard_division())
-				.reply_target_id(dto.getReply_target_id())
+				.boardStatus(dto.getBoardStatus())
+				.boardDivision(dto.getBoardDivision())
+				.replyTargetId(dto.getReplyTargetId())
 				.view(dto.isView())
 				.build();
 	}

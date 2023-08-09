@@ -137,17 +137,17 @@ public class QnaService {
 		validate(entity);
 
 		// Set Basic Value
-		entity.setBoard_division("QA");	// QnA게시판
-		entity.setBoard_status("01"); // 등록상태
+		entity.setBoardDivision("QA");	// QnA게시판
+		entity.setBoardStatus("01"); // 등록상태
 		entity.setView(true);
 
 		// DB Insert
 		BoardEntity postEntity = boardRepository.save(entity);
 
-		log.info("Entity Id : {} is saved.", entity.getBoard_id());
+		log.info("Entity Id : {} is saved.", entity.getBoardId());
 
 		// 등록후 조회
-		return boardRepository.findById(postEntity.getBoard_id());
+		return boardRepository.findById(postEntity.getBoardId());
 	}
 	
 	/**
@@ -162,7 +162,7 @@ public class QnaService {
 		validate(entity);
 
 		// 기존데이터 조회
-		final Optional<BoardEntity> original = boardRepository.findById(entity.getBoard_id());
+		final Optional<BoardEntity> original = boardRepository.findById(entity.getBoardId());
 
 		// lambda 구현식
 		original.ifPresent(board -> {
@@ -174,10 +174,10 @@ public class QnaService {
 			boardRepository.save(board);
 		});
 
-		log.info("Entity Id : {} is saved.", entity.getBoard_id());
+		log.info("Entity Id : {} is saved.", entity.getBoardId());
 
 		// 등록후 조회
-		return boardRepository.findById(entity.getBoard_id());
+		return boardRepository.findById(entity.getBoardId());
 	}
 
 	/**
@@ -192,7 +192,7 @@ public class QnaService {
 			throw new RuntimeException("Entity cannot be null.");
 		}
 
-		if(entity.getEmp_no() == null) {
+		if(entity.getEmpNo() == null) {
 			log.warn("Unknown user.");
 			throw new RuntimeException("Unknown user.");
 		}

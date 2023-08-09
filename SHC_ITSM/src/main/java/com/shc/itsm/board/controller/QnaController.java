@@ -119,32 +119,4 @@ public class QnaController {
 			return ResponseEntity.badRequest().body(response);
 		}
 	}
-
-
-
-	@PostMapping
-	public ResponseEntity<?> createQna(@AuthenticationPrincipal String userId, @RequestBody QnaDTO dto) {
-		try {
-//			String temporaryUserId = "184137";
-			// (1) QnaEntity로 변환
-			QnaEntity entity = QnaDTO.toEntity(dto);
-			// (2) id를 null로 초기화한다. 생성 당시에는 id가 없어야 한다.
-			entity.setSeq(null);
-			// (3) 임시 유저 아이디를 설정해준다. 이부분은4장 인증과 인가에서 수정 예정, 지금은 인증과 인가 기능이 없으므로 한 유저만 로그인 없이 사용 가능한 애플리케이션 셈이다.
-			entity.setUserId(userId);
-			// (4) 서비스를 이용해 Qna 엔티티를 생성한다.
-			List<QnaEntity> entities = service.create(entity);
-			// (5) 자바 스트림을 이용해 리턴된 엔티티 리스트를 QnaDTO 리스트로 변환한다.
-			List<QnaDTO> dtos = entities.stream().map(QnaDTO::new).collect(Collectors.toList());
-			// (6) 변환된 QnaDTO 리스트를 이용해 ResponseDTO를 초기화 한다.
-			ResponseDTO<QnaDTO> response = ResponseDTO.<QnaDTO>builder().data(dtos).build();
-			// (7) ResponseDTO를 리턴한다.
-			return ResponseEntity.ok().body(response);
-		}catch(Exception e) {
-			// (8) 혹시 예외가 나는 경우 dto대신 error에 메시지를 넣어 리턴한다.
-			String error = e.getMessage();
-			ResponseDTO<QnaDTO> response = ResponseDTO.<QnaDTO>builder().error(error).build();
-			return ResponseEntity.badRequest().body(response);
-		}
-	}
 }
