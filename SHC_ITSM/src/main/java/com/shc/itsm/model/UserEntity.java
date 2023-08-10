@@ -15,7 +15,7 @@ import java.util.Date;
 @Data
 @Entity
 @Table(name = "USER_TB", uniqueConstraints = {@UniqueConstraint(columnNames = "empNo")})
-public class User2Entity {
+public class UserEntity {
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
@@ -24,7 +24,7 @@ public class User2Entity {
     private String empNo;			// 직원번호(직원명의 경우 swing사용해볼예정)
     private String empName;			// 임시작성
     private String password;		// null 가능함(SSO 인증인 swing이 가능할경우)
-    private String role;			// 권한
+    private String role;			// 권한(0관리자, 1일반)
     private String authProvider;	// OAuth에서 사용할 유저 정보 제공자
     private Date lastPwdChgDate;	// 사용할지 모르겠지만 일단 일단 넣고 (3개월 변경주기 체크)
     private Integer loginFailCount;	// 사용자 잠금을 위함

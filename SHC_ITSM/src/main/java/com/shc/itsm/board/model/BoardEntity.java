@@ -31,8 +31,6 @@ public class BoardEntity {
     private Integer sortSeq;
     @Column(name= "user_id")
     private String userId;
-    @Column(name= "emp_no")
-    private String empNo;
     private String title;
     private String content;
     @Column(name= "board_status")

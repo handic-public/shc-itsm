@@ -10,21 +10,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.shc.itsm.common.dto.ResponseDTO;
-import com.shc.itsm.dto.UserDTO;
-import com.shc.itsm.model.UserEntity;
+import com.shc.itsm.dto.UserBackupDTO;
+import com.shc.itsm.model.UserBackupEntity;
 import com.shc.itsm.security.TokenProvider;
-import com.shc.itsm.service.UserService;
+import com.shc.itsm.service.UserBackupService;
 
 import lombok.extern.slf4j.Slf4j;
 
 
 @Slf4j
 @RestController
-@RequestMapping("/auth")
-public class UserController {
+@RequestMapping("/authBackup")
+public class UserBackupController {
 	
 	@Autowired
-	private UserService userService;
+	private UserBackupService userService;
 	
 	@Autowired
 	private TokenProvider tokenProvider;
@@ -32,19 +32,19 @@ public class UserController {
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	
 	@PostMapping("/signup")
-	public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
+	public ResponseEntity<?> registerUser(@RequestBody UserBackupDTO userDTO) {
 		try {
 			if(userDTO == null || userDTO.getPassword() == null) {
 				throw new RuntimeException("Invalid Password value.");
 			}
 			
-			UserEntity user = UserEntity.builder()
+			UserBackupEntity user = UserBackupEntity.builder()
 					.username(userDTO.getUsername())
 					.password(passwordEncoder.encode(userDTO.getPassword()))
 					.build();
 			
-			UserEntity registeredUser = userService.create(user);
-			UserDTO responseUserDTO = UserDTO.builder()
+			UserBackupEntity registeredUser = userService.create(user);
+			UserBackupDTO responseUserDTO = UserBackupDTO.builder()
 					.id(registeredUser.getId())
 					.username(registeredUser.getUsername())
 					.build();
@@ -60,12 +60,12 @@ public class UserController {
 	}
 	
 	@PostMapping("/signin")
-	public ResponseEntity<?> authenticate(@RequestBody UserDTO userDTO) {
-		UserEntity user = userService.getBycreadentials(userDTO.getUsername(), userDTO.getPassword(), passwordEncoder);
+	public ResponseEntity<?> authenticate(@RequestBody UserBackupDTO userDTO) {
+		UserBackupEntity user = userService.getBycreadentials(userDTO.getUsername(), userDTO.getPassword(), passwordEncoder);
 		
 		if( user != null) {
 //			final String token = tokenProvider.create(user);
-			final UserDTO responseUserDTO = UserDTO.builder()
+			final UserBackupDTO responseUserDTO = UserBackupDTO.builder()
 					.username(user.getUsername())
 					.id(user.getId())
 //					.token(token)

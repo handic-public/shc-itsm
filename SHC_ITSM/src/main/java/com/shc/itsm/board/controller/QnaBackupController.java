@@ -21,8 +21,8 @@ import com.shc.itsm.board.service.QnaService;
 import com.shc.itsm.common.dto.ResponseDTO;
 
 @RestController
-@RequestMapping("qna")
-public class QnaController {
+@RequestMapping("qnaBackup")
+public class QnaBackupController {
 	
 	@Autowired
 	private QnaService service;

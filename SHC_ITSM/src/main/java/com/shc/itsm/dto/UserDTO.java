@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User2DTO {
+public class UserDTO {
 	private String token;
 	private String id;
 	private String empNo;

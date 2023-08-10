@@ -1,7 +1,7 @@
 package com.shc.itsm.board.dto;
 
 import com.shc.itsm.board.model.BoardEntity;
-import com.shc.itsm.board.model.QnaEntity;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,7 +27,6 @@ public class BoardDTO {
 		this.boardId = entity.getBoardId();
 		this.sortSeq = entity.getSortSeq();
 		this.userId = entity.getUserId();
-		this.empNo = entity.getEmpNo(); 
 		this.title = entity.getTitle();
 		this.content = entity.getContent();
 		this.boardStatus = entity.getBoardStatus();
@@ -41,7 +40,6 @@ public class BoardDTO {
 				.boardId(dto.getBoardId())
 				.sortSeq(dto.getSortSeq())
 				.userId(dto.getUserId())
-				.empNo(dto.getEmpNo())
 				.title(dto.getTitle())
 				.content(dto.getContent())
 				.boardStatus(dto.getBoardStatus())

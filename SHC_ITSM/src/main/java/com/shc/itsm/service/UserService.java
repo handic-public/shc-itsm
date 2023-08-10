@@ -4,36 +4,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.shc.itsm.model.User2Entity;
 import com.shc.itsm.model.UserEntity;
-import com.shc.itsm.persistence.User2Repository;
+import com.shc.itsm.model.UserBackupEntity;
+import com.shc.itsm.persistence.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class User2Service {
+public class UserService {
 	
 	@Autowired
-	private User2Repository user2Repository;
+	private UserRepository userRepository;
 	
-	public User2Entity create(final User2Entity user2Entity) {
+	public UserEntity create(final UserEntity userEntity) {
 		
-		if(user2Entity == null || user2Entity.getEmpNo() == null) {
+		if(userEntity == null || userEntity.getEmpNo() == null) {
 			throw new RuntimeException("Invalid arguments");
 		}
 		
-		final String empno = user2Entity.getEmpNo();
-		if(user2Repository.existsByempNo(empno)) {
+		final String empno = userEntity.getEmpNo();
+		if(userRepository.existsByempNo(empno)) {
 			log.warn("EmpNo already exists {}", empno);
 			throw new RuntimeException("EmpNo already exists");
 		}
 		
-		return user2Repository.save(user2Entity);
+		return userRepository.save(userEntity);
 	}
 	
-	public User2Entity getBycreadentials(final String empno, final String password, final PasswordEncoder encoder) {
-		final User2Entity orginalUser = user2Repository.findByempNo(empno);
+	public UserEntity getBycreadentials(final String empno, final String password, final PasswordEncoder encoder) {
+		final UserEntity orginalUser = userRepository.findByempNo(empno);
 		
 		// mathces 메서드를 이요해 패스워드가 같은지 확인
 		if(orginalUser != null && encoder.matches(password,  orginalUser.getPassword())) {

@@ -10,23 +10,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.shc.itsm.common.dto.ResponseDTO;
-import com.shc.itsm.dto.User2DTO;
 import com.shc.itsm.dto.UserDTO;
-import com.shc.itsm.model.User2Entity;
+import com.shc.itsm.dto.UserBackupDTO;
 import com.shc.itsm.model.UserEntity;
+import com.shc.itsm.model.UserBackupEntity;
 import com.shc.itsm.security.TokenProvider;
-import com.shc.itsm.service.User2Service;
+import com.shc.itsm.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
 
 
 @Slf4j
 @RestController
-@RequestMapping("/auth2")
-public class User2Controller {
+@RequestMapping("/auth")
+public class UserController {
 	
 	@Autowired
-	private User2Service user2Service;
+	private UserService userService;
 	
 	@Autowired
 	private TokenProvider tokenProvider;
@@ -34,20 +34,21 @@ public class User2Controller {
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	
 	@PostMapping("/signup")
-	public ResponseEntity<?> registerUser(@RequestBody User2DTO userDTO) {
+	public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
 		try {
 			if(userDTO == null || userDTO.getPassword() == null) {
 				throw new RuntimeException("Invalid Password value.");
 			}
 			
-			User2Entity user = User2Entity.builder()
+			UserEntity user = UserEntity.builder()
 					.empNo(userDTO.getEmpNo())
 					.empName(userDTO.getEmpName())
 					.password(passwordEncoder.encode(userDTO.getPassword()))
+					.role("1") // 최초는 일반 사용자로 등록 추후 관리자 변경가능
 					.build();
 			
-			User2Entity registeredUser = user2Service.create(user);
-			User2DTO responseUserDTO = User2DTO.builder()
+			UserEntity registeredUser = userService.create(user);
+			UserDTO responseUserDTO = UserDTO.builder()
 					.id(registeredUser.getId())
 					.empNo(registeredUser.getEmpNo())
 					.empName(registeredUser.getEmpName())
@@ -64,22 +65,27 @@ public class User2Controller {
 	}
 	
 	@PostMapping("/signin")
-	public ResponseEntity<?> authenticate(@RequestBody User2DTO user2DTO) {
-		User2Entity user = user2Service.getBycreadentials(user2DTO.getEmpNo(), user2DTO.getPassword(), passwordEncoder);
+	public ResponseEntity<?> authenticate(@RequestBody UserDTO userDTO) {
+		UserEntity user = userService.getBycreadentials(userDTO.getEmpNo(), userDTO.getPassword(), passwordEncoder);
 		
 		if( user != null) {
 			final String token = tokenProvider.create(user);
-			final User2DTO responseUser2DTO = User2DTO.builder()
+			final UserDTO responseUserDTO = UserDTO.builder()
 					.empNo(user.getEmpNo())
 					.id(user.getId())
 					.token(token)
 					.build();
-			return ResponseEntity.ok().body(responseUser2DTO);
+			return ResponseEntity.ok().body(responseUserDTO);
 		} else {
 			ResponseDTO responseDTO = ResponseDTO.builder()
 					.error("Login failed.")
 					.build();
 			return ResponseEntity.badRequest().body(responseDTO);
 		}
+	}
+	
+	@PostMapping("/signout")
+	public ResponseEntity<?> cancelAuthenticate(@RequestBody UserBackupDTO userDTO) {
+		return null;
 	}
 }

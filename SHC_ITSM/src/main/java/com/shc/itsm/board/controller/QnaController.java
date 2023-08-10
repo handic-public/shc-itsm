@@ -21,8 +21,8 @@ import com.shc.itsm.board.service.BoardService;
 import com.shc.itsm.common.dto.ResponseDTO;
 
 @RestController
-@RequestMapping("qna2")
-public class Qna2Controller {
+@RequestMapping("qna")
+public class QnaController {
 	
 	@Autowired
 	private BoardService service;

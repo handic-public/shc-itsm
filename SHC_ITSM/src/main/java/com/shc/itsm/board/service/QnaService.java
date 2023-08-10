@@ -192,7 +192,7 @@ public class QnaService {
 			throw new RuntimeException("Entity cannot be null.");
 		}
 
-		if(entity.getEmpNo() == null) {
+		if(entity.getUserId() == null) {
 			log.warn("Unknown user.");
 			throw new RuntimeException("Unknown user.");
 		}
