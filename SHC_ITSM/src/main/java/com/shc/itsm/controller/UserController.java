@@ -10,21 +10,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.shc.itsm.common.dto.ResponseDTO;
+import com.shc.itsm.dto.User2DTO;
 import com.shc.itsm.dto.UserDTO;
+import com.shc.itsm.model.User2Entity;
 import com.shc.itsm.model.UserEntity;
 import com.shc.itsm.security.TokenProvider;
-import com.shc.itsm.service.UserService;
+import com.shc.itsm.service.User2Service;
 
 import lombok.extern.slf4j.Slf4j;
 
 
 @Slf4j
 @RestController
-@RequestMapping("/auth")
-public class UserController {
+@RequestMapping("/auth2")
+public class User2Controller {
 	
 	@Autowired
-	private UserService userService;
+	private User2Service user2Service;
 	
 	@Autowired
 	private TokenProvider tokenProvider;
@@ -32,21 +34,23 @@ public class UserController {
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	
 	@PostMapping("/signup")
-	public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
+	public ResponseEntity<?> registerUser(@RequestBody User2DTO userDTO) {
 		try {
 			if(userDTO == null || userDTO.getPassword() == null) {
 				throw new RuntimeException("Invalid Password value.");
 			}
 			
-			UserEntity user = UserEntity.builder()
-					.username(userDTO.getUsername())
+			User2Entity user = User2Entity.builder()
+					.empNo(userDTO.getEmpNo())
+					.empName(userDTO.getEmpName())
 					.password(passwordEncoder.encode(userDTO.getPassword()))
 					.build();
 			
-			UserEntity registeredUser = userService.create(user);
-			UserDTO responseUserDTO = UserDTO.builder()
+			User2Entity registeredUser = user2Service.create(user);
+			User2DTO responseUserDTO = User2DTO.builder()
 					.id(registeredUser.getId())
-					.username(registeredUser.getUsername())
+					.empNo(registeredUser.getEmpNo())
+					.empName(registeredUser.getEmpName())
 					.build();
 			
 			return ResponseEntity.ok().body(responseUserDTO);
@@ -60,17 +64,17 @@ public class UserController {
 	}
 	
 	@PostMapping("/signin")
-	public ResponseEntity<?> authenticate(@RequestBody UserDTO userDTO) {
-		UserEntity user = userService.getBycreadentials(userDTO.getUsername(), userDTO.getPassword(), passwordEncoder);
+	public ResponseEntity<?> authenticate(@RequestBody User2DTO user2DTO) {
+		User2Entity user = user2Service.getBycreadentials(user2DTO.getEmpNo(), user2DTO.getPassword(), passwordEncoder);
 		
 		if( user != null) {
-//			final String token = tokenProvider.create(user);
-			final UserDTO responseUserDTO = UserDTO.builder()
-					.username(user.getUsername())
+			final String token = tokenProvider.create(user);
+			final User2DTO responseUser2DTO = User2DTO.builder()
+					.empNo(user.getEmpNo())
 					.id(user.getId())
-//					.token(token)
+					.token(token)
 					.build();
-			return ResponseEntity.ok().body(responseUserDTO);
+			return ResponseEntity.ok().body(responseUser2DTO);
 		} else {
 			ResponseDTO responseDTO = ResponseDTO.builder()
 					.error("Login failed.")
