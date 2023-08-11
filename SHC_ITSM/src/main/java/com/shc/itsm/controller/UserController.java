@@ -10,10 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.shc.itsm.common.dto.ResponseDTO;
-import com.shc.itsm.dto.UserDTO;
 import com.shc.itsm.dto.UserBackupDTO;
+import com.shc.itsm.dto.UserDTO;
 import com.shc.itsm.model.UserEntity;
-import com.shc.itsm.model.UserBackupEntity;
 import com.shc.itsm.security.TokenProvider;
 import com.shc.itsm.service.UserService;
 
@@ -72,6 +71,7 @@ public class UserController {
 			final String token = tokenProvider.create(user);
 			final UserDTO responseUserDTO = UserDTO.builder()
 					.empNo(user.getEmpNo())
+					.empName(user.getEmpName())
 					.id(user.getId())
 					.token(token)
 					.build();
